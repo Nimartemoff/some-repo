@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: ./BackendService
+    tty: true
+    working_dir: /app
+    env_file:
+      - .env
+    expose:
+      - '3001'
+    depends_on:
+      - db
+    ports:
+      - 3001:3001
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=somepass
+      - POSTGRES_DB=vacancies
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    expose:
+      - '5432'
+    ports:
+      - 5432:5432
+    restart: always
